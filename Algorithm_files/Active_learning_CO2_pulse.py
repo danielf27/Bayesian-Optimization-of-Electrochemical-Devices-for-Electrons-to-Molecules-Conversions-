@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
 
 import numpy as np
 import pandas as pd
@@ -32,11 +30,6 @@ from mpl_toolkits.mplot3d import Axes3D
 from tkinter import *     # from tkinter import Tk for Python 3.x
 from tkinter.filedialog import askopenfilename
 get_ipython().run_line_magic('matplotlib', 'inline')
-
-
-# Load physics model data
-
-# In[2]:
 
 
 def create_grid(LB, UB, num, dim, num_diff):
@@ -100,9 +93,6 @@ def create_grid(LB, UB, num, dim, num_diff):
     return z_
 
 
-# In[3]:
-
-
 def get_obj_info(obj_name, info_name):
     obj_fun_info = pd.read_csv('obj_test.csv', sep=',', header=0)
     obj_fun_info = obj_fun_info.values
@@ -143,9 +133,6 @@ def get_obj_info(obj_name, info_name):
         return UB
 
 
-# In[5]:
-
-
 ob_name = 'CO2_pulse_3'
 
 dims = 3
@@ -171,10 +158,7 @@ print(X_tot_num)
 #     plt.title('Physics Model')
 
 
-# In[6]:
 
-
-## get_init function
 def get_init_known(ob_name, init, dim, seed):
 
     choices = np.zeros((int(init),dim))
@@ -199,8 +183,6 @@ def get_init_known(ob_name, init, dim, seed):
 # If you already have initial experiments selected, comment out the first 2 lines of code and run the remaining part of the cell. It will ask you to input a file that contains the **X** values of the initial experiments that have already been selected. Make sure you input only the values of the initial experiments. So if you originally started with 10 initial experiments, make sure you select the file that includes only those 10 initial experiments. After choosing the file, **you need to close the small window for the code to continue running.**
 # 
 # A graph showing the locations of the initial experiments (in 2 dimensions) will display, and a list of the initial experiments will be displayed.
-
-# In[18]:
 
 
 init_num = 10
@@ -245,13 +227,7 @@ print(X_init)
 
 # Save initial experiments
 
-# In[35]:
-
-
 # np.savetxt('CO2_pulse_4D_07-18-2021.csv', X_init, delimiter=',')
-
-
-# In[7]:
 
 
 def max_score_ours(X_0, X_known, y_known, X_grid, regressor, params, LB, UB):
@@ -308,9 +284,6 @@ def max_score_ours(X_0, X_known, y_known, X_grid, regressor, params, LB, UB):
     score = beta*(1 - similarity_score) + beta*(STD) + (FE)
     score = np.ravel(score)
     return -score
-
-
-# In[10]:
 
 
 ## acquisition function definitions (daniel_query, PI, EI, UCB, Phoenics)
@@ -478,10 +451,7 @@ class acquisition():
         return X_new, dims
 
 
-# In[11]:
-
-
-## Run learner method - Strip it down to only information that is needed
+## Run learner method
 def run_learner(X_grid, X_known, y_known, query_number, params, kern, acq, ob_name):
     # orig_data, X_tot, X_used, y_used, batch, a, b, d, new_eps, kern, acq
     
@@ -515,9 +485,6 @@ def run_learner(X_grid, X_known, y_known, query_number, params, kern, acq, ob_na
     return X_new, tot_preds
 
 
-# In[12]:
-
-
 def calc_y_max(y_known):
     y_known_max = np.zeros((len(y_known),1))
     ind = 0
@@ -543,8 +510,6 @@ def calc_y_max(y_known):
 # Set the date that you are running the experiments and the special things about the experiment (e.g. type of reaction, type of AL algorithm, voltage, concentration).
 # 
 # Have a file with a header with one row beneath it that contains the information about whether or not the use the physics model ("phys_dec"), the acquisition function that we're using, and the kernel that we're using. 
-
-# In[18]:
 
 
 # Set lists of initial point size and batch number size
@@ -576,7 +541,6 @@ pars = np.linspace(1,0.05,tot_batches)
 # 
 # After this, it will ask if you want to continue. If you type **"Y"**, then a new batch will start by asking you for the input of the experimental data. If you would rather stop the program and start it again once you have run the experiments, type **"N"** and the *for* loop will stop.
 
-# In[165]:
 
 
 root=Tk()
@@ -706,8 +670,6 @@ for j in range(curr_batch, tot_batches):
 # 
 # The following blocks of code were used to plot the results from the BO experiments in various ways. 
 
-# In[15]:
-
 
 data = pd.read_csv('Experiment_data_CO2_pulse_3D_production_rate_2021-07-13.csv', sep=',', header=None)
 # data = pd.read_csv('3D_opt_FE.csv', sep=',', header=None)
@@ -729,8 +691,6 @@ with plt.style.context('seaborn-white'):
     plt.tick_params(direction='in', length=10,width=2)
 #     plt.savefig('y_value_%s_batch_%s_%s.png' % (special, j, date), transparent=True)
 
-
-# In[19]:
 
 
 # tot_data = pd.read_csv('tot_preds_CO2_pulse_3D_batch_9_2021-07-13.csv', sep=',', header=None)
@@ -853,8 +813,6 @@ with plt.style.context('seaborn-white'):
 #     plt.title('(A) CO Faradaic Efficiency at 100 $mA$ $cm^{-2}$', fontsize=25)
     plt.show()
 
-
-# In[243]:
 
 
 points = pd.read_csv('4D_opt_points_1_5_20210718-20.csv', sep=',', header=None)
